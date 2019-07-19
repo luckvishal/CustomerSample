@@ -211,6 +211,7 @@ public class MainActivity extends BaseActivity  {
             public boolean onQueryTextSubmit(String query) {
                 // filter recycler view when query submitted
                 customerRecyclerAdapter.getFilter().filter(query);
+                customerRecyclerAdapter.notifyDataSetChanged();
                 return false;
             }
 
@@ -218,6 +219,7 @@ public class MainActivity extends BaseActivity  {
             public boolean onQueryTextChange(String query) {
                 // filter recycler view when text is changed
                 customerRecyclerAdapter.getFilter().filter(query);
+                customerRecyclerAdapter.notifyDataSetChanged();
                 return false;
             }
         });
