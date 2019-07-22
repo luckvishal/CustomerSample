@@ -82,4 +82,9 @@ public class DatabaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
         return db.delete(TABLE_NAME, COLUMN_NO + "=?", new String[]{String.valueOf(number)}) == 1;
     }
+
+    public Cursor rawQuery(String count, Object o) {
+        SQLiteDatabase db = getReadableDatabase();
+        return db.rawQuery("SELECT * FROM " + TABLE_NAME, null);
+    }
 }

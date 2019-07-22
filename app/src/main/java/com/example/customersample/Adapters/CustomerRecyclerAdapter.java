@@ -72,7 +72,7 @@ public class CustomerRecyclerAdapter extends RecyclerView.Adapter<CustomerRecycl
         final CustomerListPojo customerListPojo = customerListFiltered.get(position);
         holder.customer_name.setText(Util.getName(customerListPojo.getFirstName(),customerListPojo.getLastName(),customerListPojo.getEmailId()));
         holder.customer_email.setText(customerListPojo.getEmailId());
-        holder.customer_phone.setText(customerListPojo.getNumber());
+        holder.customer_phone.setText(Util.getPhone(customerListPojo.getPhone()));
     }
 
     @Override

@@ -59,4 +59,10 @@ public class Util {
         return email.substring(0,index);
 
     }
+
+    public static String getPhone(String phone) {
+        if(phone != null && !phone.isEmpty())
+            return phone;
+        return "N/A";
+    }
 }

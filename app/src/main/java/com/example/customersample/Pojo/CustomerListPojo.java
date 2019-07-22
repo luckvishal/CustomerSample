@@ -27,7 +27,7 @@ public class CustomerListPojo implements Serializable {
     private String emailId;
     @SerializedName("phone")
     @Expose
-    private Object phone;
+    private String phone;
 
     public String getNumber() {
         return number;
@@ -69,11 +69,11 @@ public class CustomerListPojo implements Serializable {
         this.emailId = emailId;
     }
 
-    public Object getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public void setPhone(Object phone) {
+    public void setPhone(String phone) {
         this.phone = phone;
     }
 
