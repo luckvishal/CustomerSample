@@ -63,7 +63,7 @@ public class CustomerFormActivity extends BaseActivity {
                     addCustomerData();
                 }
                 else
-                    Toast.makeText(getApplicationContext(),"Please enter emaiId",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Please enter emailId",Toast.LENGTH_SHORT).show();
             }
         });
 
