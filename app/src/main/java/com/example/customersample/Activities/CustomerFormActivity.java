@@ -1,11 +1,6 @@
 package com.example.customersample.Activities;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -22,27 +17,15 @@ import com.android.volley.Response;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.example.customersample.Adapters.CustomerRecyclerAdapter;
 import com.example.customersample.Config.GsonSingleton;
 import com.example.customersample.Helper.DatabaseManager;
-import com.example.customersample.Pojo.CustomerListPojo;
 import com.example.customersample.R;
 import com.example.customersample.Utility.Util;
 import com.example.customersample.network.AppRestAPI;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
-
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -60,6 +43,7 @@ public class CustomerFormActivity extends BaseActivity {
 
         // toolbar fancy stuff
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle(R.string.toolbar_form);
         //initializing the database manager object
         mDatabase = new DatabaseManager(CustomerFormActivity.this);
@@ -191,10 +175,13 @@ public class CustomerFormActivity extends BaseActivity {
         }
         return null;
     }
-
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
     @Override
     public void onBackPressed() {
-        onBackPressed();
         super.onBackPressed();
     }
 }
