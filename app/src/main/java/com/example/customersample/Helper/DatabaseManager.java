@@ -34,14 +34,21 @@ public class DatabaseManager extends SQLiteOpenHelper {
          * The only difference here is we have changed the
          * hardcoded string values with String Variables
          * */
+        String sql = "Create table " + TABLE_NAME
+                + " ( " + COLUMN_NO + " INTEGER primary key, "
+                + COLUMN_FNAME + " TEXT, "
+                + COLUMN_MNAME + " TEXT, "
+                + COLUMN_LNAME + " TEXT, "
+                + COLUMN_EMAIL + " VARCHAR, "
+                + COLUMN_PHONE + " TEXT );";
 
-        String sql = "CREATE TABLE " + TABLE_NAME + " (\n" +
-                "    " + COLUMN_NO + " INTEGER  PRIMARY KEY,\n" +
-                "    " + COLUMN_FNAME + " varchar(200) NOT NULL,\n" +
-                "    " + COLUMN_MNAME + " varchar(200) NOT NULL,\n" +
-                "    " + COLUMN_LNAME + " varchar(200) NOT NULL,\n" +
-                "    " + COLUMN_EMAIL + " varchar(200) NOT NULL,\n" +
-                "    " + COLUMN_PHONE + " varchar(200) NOT NULL\n" +");";
+//        String sql = "CREATE TABLE " + TABLE_NAME + " (\n" +
+//                "    " + COLUMN_NO + " INTEGER  PRIMARY KEY,\n" +
+//                "    " + COLUMN_FNAME + " varchar(200) ,\n" +
+//                "    " + COLUMN_MNAME + " varchar(200) ,\n" +
+//                "    " + COLUMN_LNAME + " varchar(200) ,\n" +
+//                "    " + COLUMN_EMAIL + " varchar(200) ,\n" +
+//                "    " + COLUMN_PHONE + " varchar(200) \n" +");";
 
         /*
          * Executing the string to create the table
@@ -60,13 +67,14 @@ public class DatabaseManager extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
     //For Add Customer
-    public boolean addCustomer(String fname, String mname, String lname, String email, String phone) {
+    public boolean addCustomer(int customerno, String fname, String mname, String lname, String email, String phone) {
         ContentValues contentValues = new ContentValues();
-        contentValues.put(fname, fname);
-        contentValues.put(fname, mname);
-        contentValues.put(fname, lname);
-        contentValues.put(fname, email);
-        contentValues.put(fname, phone);
+        contentValues.put(COLUMN_NO, customerno);
+        contentValues.put(COLUMN_FNAME, fname);
+        contentValues.put(COLUMN_MNAME, mname);
+        contentValues.put(COLUMN_LNAME, lname);
+        contentValues.put(COLUMN_EMAIL, email);
+        contentValues.put(COLUMN_PHONE, phone);
         SQLiteDatabase db = getWritableDatabase();
         return db.insert(TABLE_NAME, null, contentValues) != -1;
     }

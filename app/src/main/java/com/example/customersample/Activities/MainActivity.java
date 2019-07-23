@@ -117,7 +117,7 @@ public class MainActivity extends BaseActivity  {
                 recyclerView.setAdapter(customerRecyclerAdapter);
                 customerRecyclerAdapter.notifyDataSetChanged();
                 customerSorter = new CustomerSorter(customerList);
-                insertCustomer();
+                insertCustomer(customerList);
                 dismissBusyDialog();
             }
         }, new Response.ErrorListener() {
@@ -196,20 +196,25 @@ public class MainActivity extends BaseActivity  {
 
     }
 
-    private void insertCustomer() {
+    private void insertCustomer(ArrayList<CustomerListPojo> customerList) {
         SQLiteDatabase db = mDatabase.getWritableDatabase();
         String count = "SELECT count(*) FROM table";
         Cursor mcursor = mDatabase.rawQuery(count, null);
         mcursor.moveToFirst();
         int icount = mcursor.getCount();
         if(icount>0)
-            saveIntoLocalData();
+            return;
             //leave
         else
-            return;
+            saveIntoLocalData(customerList);
+
     }
 
-    private void saveIntoLocalData() {
+    private void saveIntoLocalData(ArrayList<CustomerListPojo> customerList) {
+
+        for (CustomerListPojo customerListPojo:customerList){
+            mDatabase.addCustomer(Integer.parseInt(customerListPojo.getNumber()),customerListPojo.getFirstName(),customerListPojo.getMiddleName(),customerListPojo.getLastName(),customerListPojo.getEmailId(),customerListPojo.getPhone());
+        }
 
     }
 
@@ -281,10 +286,10 @@ public class MainActivity extends BaseActivity  {
                     if (!Util.isNullOrEmpty(response.get("number").toString())) {
                         customerList.remove(customerListPojo);
                         customerRecyclerAdapter.notifyDataSetChanged();
-                        Toast.makeText(MainActivity.this, "Customer Deleted successfully!", Toast.LENGTH_SHORT).show();
+
                         //calling the delete method from the database manager instance
                         if (mDatabase.deleteCustomer(customerListPojo.getNumber())){
-
+                            Toast.makeText(MainActivity.this, "Customer Deleted successfully!", Toast.LENGTH_SHORT).show();
                         }
 
                     }

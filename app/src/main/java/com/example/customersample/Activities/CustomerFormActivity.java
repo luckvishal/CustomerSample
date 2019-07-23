@@ -59,7 +59,7 @@ public class CustomerFormActivity extends BaseActivity {
         setSupportActionBar(toolbar);
 
         // toolbar fancy stuff
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle(R.string.toolbar_form);
         //initializing the database manager object
         mDatabase = new DatabaseManager(CustomerFormActivity.this);
@@ -92,7 +92,7 @@ public class CustomerFormActivity extends BaseActivity {
                 try {
 
                     if (!Util.isNullOrEmpty(response.get("customerid").toString())) {
-                        if(mDatabase.addCustomer(first_name.getText().toString(), middle_name.getText().toString(), last_name.getText().toString(),customer_email.getText().toString(),customer_phone.getText().toString()));
+                        if(mDatabase.addCustomer(Integer.parseInt(response.get("customerid").toString()),first_name.getText().toString(), middle_name.getText().toString(), last_name.getText().toString(),customer_email.getText().toString(),customer_phone.getText().toString()));
                         Toast.makeText(CustomerFormActivity.this, "Customer added successfully!", Toast.LENGTH_SHORT).show();
                         dismissBusyDialog();
                     }
@@ -192,4 +192,9 @@ public class CustomerFormActivity extends BaseActivity {
         return null;
     }
 
+    @Override
+    public void onBackPressed() {
+        onBackPressed();
+        super.onBackPressed();
+    }
 }
