@@ -32,7 +32,7 @@ import java.util.Map;
 public class CustomerFormActivity extends BaseActivity {
     EditText first_name, middle_name, last_name, customer_phone, customer_email;
     Button chekin_btn;
-    private String requestBody;
+    private JSONObject requestBody;
     DatabaseManager mDatabase;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,8 @@ public class CustomerFormActivity extends BaseActivity {
                     if(Util.isAppOnLine(CustomerFormActivity.this))
                     addCustomerData();
                 }
+                else
+                    Toast.makeText(getApplicationContext(),"Please enter emaiId",Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -69,15 +71,16 @@ public class CustomerFormActivity extends BaseActivity {
 
     private void addCustomerData() {
         showBusyDialog("Loading");
-        requestBody = ""+addCustomerJsonRequest();
-        JsonObjectRequest jor = new JsonObjectRequest(Request.Method.POST, AppRestAPI.baseRemoteUrl + AppRestAPI.addCustomerUrl, addCustomerJsonRequest(), new Response.Listener<JSONObject>() {
+        requestBody = addCustomerJsonRequest();
+        JsonObjectRequest jor = new JsonObjectRequest(Request.Method.POST, AppRestAPI.baseRemoteUrl + AppRestAPI.addCustomerUrl, requestBody, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
 
-                    if (!Util.isNullOrEmpty(response.get("customerid").toString())) {
-                        if(mDatabase.addCustomer(Integer.parseInt(response.get("customerid").toString()),first_name.getText().toString(), middle_name.getText().toString(), last_name.getText().toString(),customer_email.getText().toString(),customer_phone.getText().toString()));
+                    if (!Util.isNullOrEmpty(response.get("customerId").toString())) {
+                        if(mDatabase.addCustomer(Integer.parseInt(response.get("customerId").toString()),first_name.getText().toString(), middle_name.getText().toString(), last_name.getText().toString(),customer_email.getText().toString(),customer_phone.getText().toString()));
                         Toast.makeText(CustomerFormActivity.this, "Customer added successfully!", Toast.LENGTH_SHORT).show();
+                        clearTextView();
                         dismissBusyDialog();
                     }
                 } catch (JSONException e) {
@@ -130,15 +133,7 @@ public class CustomerFormActivity extends BaseActivity {
             public String getBodyContentType() {
                 return "application/application/json; charset=UTF-8";
             }
-            @Override
-            public byte[] getBody() {
-                try {
-                    return requestBody == null ? null : requestBody.getBytes("utf-8");
-                } catch (UnsupportedEncodingException uee) {
-                    VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", requestBody, "utf-8");
-                    return null;
-                }
-            }
+
 
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
@@ -153,11 +148,19 @@ public class CustomerFormActivity extends BaseActivity {
 //Set time out for volley api calling
         jor.setRetryPolicy(new
 
-                DefaultRetryPolicy(50000,
+                DefaultRetryPolicy(20000,
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         GsonSingleton.getInstance(getApplicationContext()).addToRequestQueue(jor);
 
+    }
+
+    private void clearTextView() {
+        first_name.getText().clear();
+        middle_name.getText().clear();
+        last_name.getText().clear();
+        customer_email.getText().clear();
+        customer_phone.getText().clear();
     }
 
     //Method to create json object and send it to api to get the json data
